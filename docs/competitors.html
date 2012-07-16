@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>events Jasmine Runner</title>
+        <title>Events</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
         
         <link rel="stylesheet" href="../assets/base.css" />
@@ -10,9 +10,7 @@
         <link rel="stylesheet" href="../assets/pygments.css" />
         <script src="http://aralejs.org/dist/seajs/1.2.0/sea.js" id="seajsnode"></script>
         
-<script src="../assets/seajs-help.js"></script>
-<script src="../assets/jasmine-help.js"></script>
-
+        
         <!--[if lt IE 9]>
         <script type="text/javascript" src="../assets/html5shiv.js"></script>
         <![endif]-->
@@ -31,8 +29,30 @@
 
         <div id="main">
             
+
+<nav id="side-nav">
+    
+    <a href="../docs/competitors.html">competitors</a>
+    
+</nav>
+
+
             <div class="container">
-            </div>
+    <h1>Events 竞争对手分析</h1>
+
+<ul>
+<li><p>在 DOM 事件的封装上，YUI3 最强大，并带有很强的学术性。jQuery 则非常实用。还有其他一些类库，比如
+KISSY、QWrap 等，都大同小异。</p></li>
+<li><p>在 Arale 里，与 DOM 相关的事件，直接采用 jQuery 来实现。</p></li>
+<li><p>该 Events 模块仅提供非常纯粹的事件驱动机制。</p></li>
+<li><p>与该模块定位相同的同类产品有：Backbone.Events, NodeJS 的 EventEmitter 等。</p></li>
+<li><p>NodeJS 的 EventEmitter 功能点较多，主要考虑服务器端。</p></li>
+<li><p>Backbone 的 Events 定位与我们最像，同时也考虑了与 jQuery API 风格的一致性，非常不错。</p></li>
+<li><p>该模块会重点借鉴 Backbone.Events. 在 API 上会有少量调整，以与类库的整体设计风格保持一致。</p></li>
+</ul>
+
+</div>
+
         </div>
         <hr class="end" />
     </body>

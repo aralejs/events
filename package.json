@@ -1,7 +1,10 @@
 {
     "name": "events",
     "version": "0.9.1",
-    "dist": {
-        "events.js": "default"
-    }
+    "output": {
+        "events.js": ["events.js"]
+    },
+    "tests": [
+        "events"
+    ]
 }
