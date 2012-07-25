@@ -1,4 +1,4 @@
-define("#events/0.9.1/events-debug", [], function() {
+define("#events/0.9.2/events-debug", [], function() {
 
     // Events
     // -----------------

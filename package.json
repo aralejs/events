@@ -1,7 +1,10 @@
 {
     "name": "events",
-    "version": "0.9.1",
+    "version": "0.9.2",
     "output": {
         "events.js": "."
-    }
+    },
+    "tests": [
+        "events"
+    ]
 }
