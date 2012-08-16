@@ -8,7 +8,7 @@
 
 ## 模块依赖
 
- - [seajs](seajs/README.md)
+ - seajs
 
 
 ## 使用说明
@@ -51,7 +51,7 @@ define(function(require) {
 });
 ```
 
-上面的例子已经展现了 `on`, `trigger` `mixTo` 等方法的基本用法，下面详细阐述所有 API.
+上面的例子已经展现了 `on`, `trigger` `mixTo` 等方法的基本用法，下面详细阐述所有 API 。
 
 
 ### on `object.on(event, callback, [context])`
@@ -120,7 +120,7 @@ obj.on('x').on('y');
 
 ## 测试用例
 
-- <http://aralejs.org/lib/events/tests/runner.html>
+- <http://aralejs.org/events/tests/runner.html>
 
 
 ## 性能对比
@@ -136,13 +136,13 @@ Backbone 已合并 Arale 的代码：
 
 ## 调研文档
 
-- [Events 竞争对手分析](http://aralejs.org/events/dist/docs/competitors.html)
+- [Events 竞争对手分析](http://aralejs.org/events/docs/competitors.html)
 
 
 ## 交流讨论
 
 欢迎创建
-[GitHub Issue](https://github.com/alipay/arale/issues/new)
+[GitHub Issue](https://github.com/aralejs/events/issues/new)
 来提交反馈。
 
 已有议题：

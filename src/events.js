@@ -89,7 +89,8 @@ define(function() {
 
     events = events.split(eventSplitter)
 
-    // Using loop is more efficient than `slice.call(arguments, 1)`
+    // Fill up `rest` with the callback arguments.  Since we're only copying
+    // the tail of `arguments`, a loop is much faster than Array#slice.
     for (i = 1, len = arguments.length; i < len; i++) {
       rest[i - 1] = arguments[i]
     }
