@@ -16,9 +16,9 @@ define(function() {
   // functions to an event; `trigger`-ing an event fires all callbacks in
   // succession.
   //
-  //     var object = new Events()
-  //     object.on('expand', function(){ alert('expanded'); })
-  //     object.trigger('expand')
+  //     var object = new Events();
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
   //
   function Events() {
   }
