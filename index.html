@@ -1,63 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-<title>Events</title>
-<link rel="stylesheet" href="http://aralejs.org/assets/base.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/style.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
-<script src="http://seajs.org/dist/sea.js"></script>
-<script src="http://aralejs.org/tools/seajs-helper.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>Events</title><link rel="stylesheet" href="http://alipay.github.com/liquidluck-theme-arale/assets/app.min.css">
+    <link rel="shortcut icon" href="http://alipay.github.com/liquidluck-theme-arale/assets/favicon.ico" type="image/x-icon" />
+    <script src="http://seajs.org/dist/sea.js"></script>
+    <script src="http://alipay.github.com/liquidluck-theme-arale/tools/arale-helper.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://alipay.github.com/liquidluck-theme-arale/assets/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <a title="Home" class="icon-home" href="/" id="logo">Arale</a>
+        <div class="wrapper fn-clear">
+          
+          <nav class="global-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="developer-guides"><a href="/developer-guides/">开发指南</a></li>
+              <li class="user-guides"><a href="/components/">组件文档</a> • <a style="padding-left:0;" href="/mapping.html">Map</a></li>
+            </ul>
+          </nav>
+          <nav class="top-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="first"><a target="_blank" href="http://seajs.org">SeaJS</a></li>
+              <li class="last"><a target="_blank" href="https://github.com/seajs/spm/wiki">SPM</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </div>
+    </header>
 
-
-<!--[if lt IE 9]>
-<script src="http://aralejs.org/assets/html5shiv.js"></script>
-<![endif]-->
-</head>
-<body>
-<header id="header">
-    <div class="container fn-clear">
-
-    <a href="./"  class="current">Events</a>
-    
-    
-    <a id="nav-test" href="./tests/runner.html">用例</a>
-    
-
-
-        <nav role="navigation" id="nav">
-            <a title="Home" class="icon-home" href="/" id="logo">首页</a>
-            <a id="code-link" class="icon-github" href="https://github.com/aralejs/events">源码</a>
-        </nav>
-    </div>
-</header>
-
-<div id="main">
-    <div class="container">
-<div class="document-body">
+    <div id="main">
+      <div class="container fn-clear">
+<div class="markdown-body">
+  <h1 class="entry-title">Events</h1>
+  <div class="other-info">
+    <a href="history.html">历史</a>
+    <a target="_blank" href="https://github.com/aralejs/events/">源码</a>
+  </div>
+  <p class="entry-description">提供基本的事件添加、移除和触发功能。</p>
+  <p class="entry-cdn" data-name="events"></p>
   
-  <nav id="side-nav">
-    <a href="./">README</a>
-    
-    <a href="./docs/competitors.html">competitors</a>
-    
-  </nav>
+  <hr />
+
   
-
-  <div class="markdown-body">
-    <h1>Events</h1>
-<p>提供基本的事件添加、移除和触发功能。</p>
-
-<hr/>
-
-<h2>模块依赖</h2>
-
+<h2>文档</h2>
 <ul>
-<li>seajs</li>
-</ul>
-
-<h2>使用说明</h2>
+  <li><a href="./docs/competitors.html">Events 竞争对手分析</a></li>
+</ul><h2 id="toc_0">使用说明</h2>
 <p>使用 <code>Events</code> 有两种方式，一种是直接实例化：</p>
 <div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">require</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">Events</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">);</span>
@@ -92,7 +86,7 @@
 </pre></div>
 <p>上面的例子已经展现了 <code>on</code>, <code>trigger</code> <code>mixTo</code> 等方法的基本用法，下面详细阐述所有 API 。</p>
 
-<h3>on <code>object.on(event, callback, [context])</code></h3>
+<h3 id="toc_1">on <code>object.on(event, callback, [context])</code></h3>
 <p>给对象添加事件回调函数。</p>
 <p>可以传入第三个参数 <code>context</code> 来改变回调函数调用时的 <code>this</code> 值：</p>
 <div class="highlight"><pre><span class="nx">post</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;saved&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">that</span><span class="p">);</span>
@@ -104,7 +98,7 @@
 <span class="p">});</span>
 </pre></div>
 
-<h3>off <code>object.off([event], [callback], [context])</code></h3>
+<h3 id="toc_2">off <code>object.off([event], [callback], [context])</code></h3>
 <p>从对象上移除事件回调函数。三个参数都是可选的，当省略某个参数时，表示取该参数的所有值。例子：</p>
 <div class="highlight"><pre><span class="c1">// 移除 change 事件上名为 onChange 的回调函数</span>
 <span class="nx">object</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="nx">onChange</span><span class="p">);</span>
@@ -122,7 +116,7 @@
 <span class="nx">object</span><span class="p">.</span><span class="nx">off</span><span class="p">();</span>
 </pre></div>
 
-<h3>trigger <code>object.trigger(event, [*args])</code></h3>
+<h3 id="toc_3">trigger <code>object.trigger(event, [*args])</code></h3>
 <p>触发一个或多个事件（用空格分隔）。<code>*args</code> 参数会依次传给回调函数。</p>
 <p><strong>注意</strong>：<code>on</code> 和 <code>off</code> 的 <code>event</code> 参数也可以表示多个事件（用空格分隔），比如：</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Events</span><span class="p">();</span>
@@ -133,50 +127,41 @@
 <span class="nx">obj</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">);</span>
 </pre></div>
 
-<h3>mixTo <code>Events.mixTo(receiver)</code></h3>
+<h3 id="toc_4">mixTo <code>Events.mixTo(receiver)</code></h3>
 <p>将 <code>Events</code> 的原型方法混入到指定对象或函数原型中。</p>
 
-<h2>测试用例</h2>
+<h2 id="toc_5">性能对比</h2>
 
 <ul>
-<li><a href="http://aralejs.org/events/tests/runner.html">http://aralejs.org/events/tests/runner.html</a></li>
-</ul>
-
-<h2>性能对比</h2>
-
-<ul>
-<li><a href="http://jsperf.com/events-perfs">http://jsperf.com/events-perfs</a></li>
+<li><a href="http://jsperf.com/events-perfs">jsperf.com/events-perfs</a></li>
 </ul>
 <p><strong>注</strong>：最开始，该模块的主要代码直接来自 Backbone.Events. 后来发现 Backbone
 的代码实现有较大的改进空间，因此将内部的数据结构从链表改成了数组，重构后大幅度提升了性能。目前
 Backbone 已合并 Arale 的代码：</p>
 
 <ul>
-<li><a href="https://github.com/documentcloud/backbone/pull/1284">https://github.com/documentcloud/backbone/pull/1284</a></li>
+<li><a href="https://github.com/documentcloud/backbone/pull/1284">github.com/documentcloud/backbone/pull/1284</a></li>
 </ul>
 
-<h2>调研文档</h2>
 
-<ul>
-<li><a href="http://aralejs.org/events/docs/competitors.html">Events 竞争对手分析</a></li>
-</ul>
+  <h2>用例</h2>
+  <p><a href="./tests/runner.html">测试用例</a></p>
 
-<h2>交流讨论</h2>
-<p>欢迎创建
-<a href="https://github.com/aralejs/events/issues/new">GitHub Issue</a>
-来提交反馈。</p>
-<p>已有议题：</p>
-
-<ul>
-<li><a href="https://github.com/alipay/arale/issues/33">Events 增加 mixTo 方法</a></li>
-</ul>
-
-  </div>
+  <h2>讨论</h2>
+  <p>有任何疑问，欢迎发送邮件到 <a href="https://groups.google.com/forum/?fromgroups#!forum/aralejs">aralejs@googlegroups.com</a></p>
+  <p>发现 bug？请提交 <a href="https://github.com/aralejs/events/issues/new">Issue</a></p>
 </div>
-
+<div class="sidebar sidebar-components"></div>
+      </div>
     </div>
-</div>
-<hr class="end">
-<script src="http://aralejs.org/tools/nico-helper.js"></script>
-</body>
+
+    <footer id="footer">
+      <div class="container">
+        <div class="copyright">
+          <p>&copy; 2012 aralejs.org</p>
+          <p>除非另有声明，本站所有代码遵循 MIT 协议</p>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

@@ -5,12 +5,6 @@
 
 ---
 
-
-## 模块依赖
-
- - seajs
-
-
 ## 使用说明
 
 使用 `Events` 有两种方式，一种是直接实例化：
@@ -118,11 +112,6 @@ obj.on('x').on('y');
 将 `Events` 的原型方法混入到指定对象或函数原型中。
 
 
-## 测试用例
-
-- <http://aralejs.org/events/tests/runner.html>
-
-
 ## 性能对比
 
 - <http://jsperf.com/events-perfs>
@@ -133,18 +122,3 @@ Backbone 已合并 Arale 的代码：
 
 - <https://github.com/documentcloud/backbone/pull/1284>
 
-
-## 调研文档
-
-- [Events 竞争对手分析](http://aralejs.org/events/docs/competitors.html)
-
-
-## 交流讨论
-
-欢迎创建
-[GitHub Issue](https://github.com/aralejs/events/issues/new)
-来提交反馈。
-
-已有议题：
-
-- [Events 增加 mixTo 方法](https://github.com/alipay/arale/issues/33)
