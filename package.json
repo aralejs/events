@@ -4,6 +4,14 @@
     "version": "1.0.0",
     "description": "提供基本的事件添加、移除和触发功能。",
     "tag": "infrastructure",
+    "homepage": "http://aralejs.org/events/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aralejs/events.git"
+    },
+    "bugs": {
+        "url": "https://github.com/aralejs/events/issues"
+    },
     "output": {
         "events.js": "."
     },
