@@ -1,8 +1,10 @@
 {
     "name": "events",
+    "root": "arale",
     "version": "1.0.0",
     "tag": "infrastructure",
     "output": {
         "events.js": "."
-    }
+    },
+    "tests": ["events"]
 }

@@ -1,4 +1,4 @@
-define("#events/1.0.0/events-debug", [], function() {
+define("arale/events/1.0.0/events-debug", [], function() {
 
   // Events
   // -----------------
