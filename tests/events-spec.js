@@ -4,11 +4,12 @@ define(function(require) {
   //  - https://github.com/documentcloud/backbone/blob/master/test/events.js
 
   var Events = require('../src/events')
+  var expect = chai.expect
 
 
   describe('Events', function() {
 
-    test('on and trigger', function() {
+    it('on and trigger', function() {
       var obj = new Events()
       obj.counter = 0
 
@@ -17,16 +18,16 @@ define(function(require) {
       })
 
       obj.trigger('event')
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
 
       obj.trigger('event')
       obj.trigger('event')
       obj.trigger('event')
       obj.trigger('event')
-      expect(obj.counter).toBe(5)
+      expect(obj.counter).to.equal(5)
     })
 
-    test('binding and triggering multiple events', function() {
+    it('binding and triggering multiple events', function() {
       var obj = new Events()
       obj.counter = 0
 
@@ -35,20 +36,20 @@ define(function(require) {
       })
 
       obj.trigger('a')
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
 
       obj.trigger('a b')
-      expect(obj.counter).toBe(3)
+      expect(obj.counter).to.equal(3)
 
       obj.trigger('c')
-      expect(obj.counter).toBe(4)
+      expect(obj.counter).to.equal(4)
 
       obj.off('a c')
       obj.trigger('a b c')
-      expect(obj.counter).toBe(5)
+      expect(obj.counter).to.equal(5)
     })
 
-    test('trigger all for each event', function() {
+    it('trigger all for each event', function() {
       var obj = new Events()
       obj.counter = 0
       var a, b
@@ -59,12 +60,12 @@ define(function(require) {
         if (event == 'b') b = true
       }).trigger('a b')
 
-      expect(a).toBe(true)
-      expect(b).toBe(true)
-      expect(obj.counter).toBe(2)
+      expect(a).to.equal(true)
+      expect(b).to.equal(true)
+      expect(obj.counter).to.equal(2)
     })
 
-    test('on, then unbind all functions', function() {
+    it('on, then unbind all functions', function() {
       var obj = new Events()
       obj.counter = 0
 
@@ -76,10 +77,10 @@ define(function(require) {
       obj.trigger('event')
       obj.off('event')
       obj.trigger('event')
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
     })
 
-    test('bind two callbacks, unbind only one', function() {
+    it('bind two callbacks, unbind only one', function() {
       var obj = new Events()
       obj.counterA = 0
       obj.counterB = 0
@@ -96,11 +97,11 @@ define(function(require) {
       obj.off('event', callback)
       obj.trigger('event')
 
-      expect(obj.counterA).toBe(1)
-      expect(obj.counterB).toBe(2)
+      expect(obj.counterA).to.equal(1)
+      expect(obj.counterB).to.equal(2)
     })
 
-    test('unbind a callback in the midst of it firing', function() {
+    it('unbind a callback in the midst of it firing', function() {
       var obj = new Events()
       obj.counter = 0
 
@@ -114,10 +115,10 @@ define(function(require) {
       obj.trigger('event')
       obj.trigger('event')
 
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
     })
 
-    test('two binds that unbind themeselves', function() {
+    it('two binds that unbind themeselves', function() {
       var obj = new Events()
       obj.counterA = 0
       obj.counterB = 0
@@ -138,11 +139,11 @@ define(function(require) {
       obj.trigger('event')
       obj.trigger('event')
 
-      expect(obj.counterA).toBe(1)
-      expect(obj.counterB).toBe(1)
+      expect(obj.counterA).to.equal(1)
+      expect(obj.counterB).to.equal(1)
     })
 
-    test('bind a callback with a supplied context', function() {
+    it('bind a callback with a supplied context', function() {
       function TestClass() {
       }
 
@@ -153,13 +154,13 @@ define(function(require) {
       var obj = new Events()
 
       obj.on('event', function() {
-        expect(this.assertTrue()).toBe(true)
+        expect(this.assertTrue()).to.equal(true)
       }, (new TestClass))
 
       obj.trigger('event')
     })
 
-    test('nested trigger with unbind', function() {
+    it('nested trigger with unbind', function() {
       var obj = new Events()
       obj.counter = 0
 
@@ -177,10 +178,10 @@ define(function(require) {
       obj.on('event', incr2)
       obj.trigger('event')
 
-      expect(obj.counter).toBe(3)
+      expect(obj.counter).to.equal(3)
     })
 
-    test('callback list is not altered during trigger', function() {
+    it('callback list is not altered during trigger', function() {
       var counter = 0
       var obj = new Events()
 
@@ -193,7 +194,7 @@ define(function(require) {
       }).trigger('event')
 
       // bind does not alter callback list
-      expect(counter).toBe(0)
+      expect(counter).to.equal(0)
 
       counter = 0
       obj.off()
@@ -205,7 +206,7 @@ define(function(require) {
           .trigger('event')
 
       // unbind does not alter callback list
-      expect(counter).toBe(2)
+      expect(counter).to.equal(2)
 
       // 注：
       // 1. jQuery 里，是冻结的，在 triggering 时，新增或删除都不影响
@@ -225,7 +226,7 @@ define(function(require) {
 
     })
 
-    test('`o.trigger("x y")` is equal to `o.trigger("x").trigger("x")`', function() {
+    it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("x")`', function() {
       var counter = 0
       var obj = new Events()
 
@@ -238,7 +239,7 @@ define(function(require) {
       })
       obj.trigger('x y')
 
-      expect(counter).toBe(1)
+      expect(counter).to.equal(1)
 
       counter = 0
       obj.off()
@@ -247,10 +248,10 @@ define(function(require) {
       })
       obj.trigger('y x')
 
-      expect(counter).toBe(0)
+      expect(counter).to.equal(0)
     })
 
-    test('`all` callback list is retrieved after each event', function() {
+    it('`all` callback list is retrieved after each event', function() {
       var counter = 0
       var obj = new Events()
 
@@ -262,14 +263,14 @@ define(function(require) {
         obj.on('y', incr).on('all', incr)
       }).trigger('x y')
 
-      expect(counter).toBe(2)
+      expect(counter).to.equal(2)
     })
 
-    test('if no callback is provided, `on` is a noop', function() {
+    it('if no callback is provided, `on` is a noop', function() {
       new Events().on('test').trigger('test')
     })
 
-    test('remove all events for a specific context', function() {
+    it('remove all events for a specific context', function() {
       var obj = new Events()
       var a = 0
       var b = 0
@@ -285,11 +286,11 @@ define(function(require) {
       obj.off(null, null, obj)
       obj.trigger('x y')
 
-      expect(a).toBe(4)
-      expect(b).toBe(0)
+      expect(a).to.equal(4)
+      expect(b).to.equal(0)
     })
 
-    test('remove all events for a specific callback', function() {
+    it('remove all events for a specific callback', function() {
       var obj = new Events()
       var a = 0
       var b = 0
@@ -307,29 +308,29 @@ define(function(require) {
       obj.off(null, fail)
       obj.trigger('x y')
 
-      expect(a).toBe(4)
-      expect(b).toBe(0)
+      expect(a).to.equal(4)
+      expect(b).to.equal(0)
     })
 
-    test('off is chainable', function() {
+    it('off is chainable', function() {
       var obj = new Events()
 
       // With no events
-      expect(obj.off()).toBe(obj)
+      expect(obj.off()).to.equal(obj)
 
       // When removing all events
       obj.on('event', function() {
       }, obj)
-      expect(obj.off()).toBe(obj)
+      expect(obj.off()).to.equal(obj)
 
       // When removing some events
       obj.on('event', function() {
       }, obj)
-      expect(obj.off('event')).toBe(obj)
+      expect(obj.off('event')).to.equal(obj)
     })
 
     // 百年难得一遇，不考虑
-    xtest('no DontEnums bug', function() {
+    it.skip('no DontEnums bug', function() {
       var obj = new Events()
       var counter = 0
 
@@ -344,11 +345,11 @@ define(function(require) {
       obj.trigger('toString')
       obj.trigger('valueOf')
 
-      expect(counter).toBe(2)
+      expect(counter).to.equal(2)
     })
 
     // 非常稀有的场景，不值得
-    xtest('hasOwnProperty is ok', function() {
+    it.skip('hasOwnProperty is ok', function() {
       var obj = new Events()
       var counter = 0
 
@@ -358,10 +359,10 @@ define(function(require) {
 
       obj.trigger('hasOwnProperty')
 
-      expect(counter).toBe(1)
+      expect(counter).to.equal(1)
     })
 
-    test('mixTo object instance', function() {
+    it('mixTo object instance', function() {
       var obj = { counter: 0 }
       Events.mixTo(obj)
 
@@ -370,10 +371,10 @@ define(function(require) {
       }
 
       obj.on('x y', incr).off('x').trigger('x y')
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
     })
 
-    test('mixTo Class function', function() {
+    it('mixTo Class function', function() {
       function F() {
         this.counter = 0
       }
@@ -386,10 +387,10 @@ define(function(require) {
       }
 
       obj.on('x y', incr).off('x').trigger('x y')
-      expect(obj.counter).toBe(1)
+      expect(obj.counter).to.equal(1)
     })
 
-    test('splice bug for `off`', function() {
+    it('splice bug for `off`', function() {
       var counter = 0
 
       function f1() {
@@ -406,13 +407,13 @@ define(function(require) {
       obj.on('event', f2)
 
       obj.trigger('event')
-      expect(counter).toBe(3)
+      expect(counter).to.equal(3)
 
       obj.off(null, f1)
       obj.off(null, f2)
 
       obj.trigger('event')
-      expect(counter).toBe(3)
+      expect(counter).to.equal(3)
     })
   })
 })
