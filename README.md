@@ -31,7 +31,7 @@ proxy.on('all', function(eventName) {
 });
 ```
 
-#### off `([event], [callback], [context])`
+#### off `([event, callback, context])`
 
 从对象上移除事件回调函数。三个参数都是可选的，当省略某个参数时，表示取该参数的所有值。例子：
 
