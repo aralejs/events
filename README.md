@@ -9,19 +9,20 @@
 
 ---
 
-## 使用说明
+## HowTo
+
 
 使用 `Events` 有两种方式，一种是直接实例化：
 
 ```js
 define(function(require) {
     var Events = require('events');
-
+    
     var object = new Events();
     object.on('expand', function() {
         alert('expanded');
     });
-
+    
     object.trigger('expand');
 });
 ```
@@ -32,10 +33,8 @@ define(function(require) {
 define(function(require) {
     var Events = require('events');
 
-    function Dog() {
-    }
+    function Dog() {}
     Events.mixTo(Dog);
-
     Dog.prototype.sleep = function() {
         this.trigger('sleep');
     };
@@ -49,21 +48,21 @@ define(function(require) {
 });
 ```
 
-上面的例子已经展现了 `on`, `trigger` `mixTo` 等方法的基本用法，下面详细阐述所有 API 。
+## API 
 
+### 方法
 
-### on `object.on(event, callback, [context])`
+#### on `(event, callback, [context])`
 
 给对象添加事件回调函数。
 
-可以传入第三个参数 `context` 来改变回调函数调用时的 `this` 值：
+- **event** {String} 事件名，多个事件名之间以空格分隔。
+- **callback** {Functino} 回调函数，接收 `trigger(event, [*args])` 方法传入的 `[*args]` 参数。
+- **context**[=this] {Object} 传入此参数可改变函数调用时的 `this` 值。
 
-```js
-post.on('saved', callback, that);
-```
+**注意**：
 
-**注意**：`event` 参数有个特殊取值：`all`. 对象上触发任何事件，都会触发 `all`
-事件的回调函数，传给 `all` 事件回调函数的第一个参数是事件名。例如，下面的代码可以将一个对象上的所有事件代理到另一个对象上：
+`event` 参数有个特殊取值：`all`。对象上触发任何事件，都会触发 `all`。事件的回调函数，传给 `all` 事件回调函数的第一个参数是事件名，其后才是 `trigger(event, [*args])` 方法传入的`[*args]` 参数 。例如，下面的代码可以将一个对象上的所有事件代理到另一个对象上：
 
 ```js
 proxy.on('all', function(eventName) {
@@ -71,8 +70,7 @@ proxy.on('all', function(eventName) {
 });
 ```
 
-
-### off `object.off([event], [callback], [context])`
+#### off `([event], [callback], [context])`
 
 从对象上移除事件回调函数。三个参数都是可选的，当省略某个参数时，表示取该参数的所有值。例子：
 
@@ -93,8 +91,7 @@ object.off(null, null, context);
 object.off();
 ```
 
-
-### trigger `object.trigger(event, [*args])`
+#### trigger `(event, [*args])`
 
 触发一个或多个事件（用空格分隔）。`*args` 参数会依次传给回调函数。
 
@@ -111,7 +108,7 @@ obj.on('x').on('y');
 ```
 
 
-### mixTo `Events.mixTo(receiver)`
+#### Events.mixTo `(receiver)`
 
 将 `Events` 的原型方法混入到指定对象或函数原型中。
 
