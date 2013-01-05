@@ -9,45 +9,6 @@
 
 ---
 
-## HowTo
-
-
-使用 `Events` 有两种方式，一种是直接实例化：
-
-```js
-define(function(require) {
-    var Events = require('events');
-    
-    var object = new Events();
-    object.on('expand', function() {
-        alert('expanded');
-    });
-    
-    object.trigger('expand');
-});
-```
-
-另一种是将 `Events` 混入（mix-in）到其他类中：
-
-```js
-define(function(require) {
-    var Events = require('events');
-
-    function Dog() {}
-    Events.mixTo(Dog);
-    Dog.prototype.sleep = function() {
-        this.trigger('sleep');
-    };
-
-    var dog = new Dog();
-    dog.on('sleep', function() {
-        alert('狗狗睡得好香呀');
-    });
-
-    dog.sleep();
-});
-```
-
 ## API 
 
 ### 方法
@@ -112,6 +73,45 @@ obj.on('x').on('y');
 
 将 `Events` 的原型方法混入到指定对象或函数原型中。
 
+
+## HowTo
+
+
+使用 `Events` 有两种方式，一种是直接实例化：
+
+```js
+define(function(require) {
+    var Events = require('events');
+    
+    var object = new Events();
+    object.on('expand', function() {
+        alert('expanded');
+    });
+    
+    object.trigger('expand');
+});
+```
+
+另一种是将 `Events` 混入（mix-in）到其他类中：
+
+```js
+define(function(require) {
+    var Events = require('events');
+
+    function Dog() {}
+    Events.mixTo(Dog);
+    Dog.prototype.sleep = function() {
+        this.trigger('sleep');
+    };
+
+    var dog = new Dog();
+    dog.on('sleep', function() {
+        alert('狗狗睡得好香呀');
+    });
+
+    dog.sleep();
+});
+```
 
 ## 性能对比
 
