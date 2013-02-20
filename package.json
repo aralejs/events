@@ -1,9 +1,9 @@
 {
     "name": "events",
-    "root": "arale",
+    "family": "arale",
     "version": "1.0.0",
     "description": "提供基本的事件添加、移除和触发功能。",
-    "tag": "infrastructure",
+    "keywords": ["infrastructure"],
     "homepage": "http://aralejs.org/events/",
     "repository": {
         "type": "git",
@@ -12,8 +12,9 @@
     "bugs": {
         "url": "https://github.com/aralejs/events/issues"
     },
-    "output": {
-        "events.js": "."
-    },
-    "tests": ["events"]
+    "spm": {
+      "output": {
+        "events.js": ["events.js"]
+      }
+    }
 }
