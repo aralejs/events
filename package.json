@@ -13,8 +13,6 @@
         "url": "https://github.com/aralejs/events/issues"
     },
     "spm": {
-      "output": {
-        "events.js": ["events.js"]
-      }
+      "output": ["events.js"]
     }
 }
