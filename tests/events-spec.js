@@ -3,6 +3,7 @@ define(function(require) {
   // Thanks to:
   //  - https://github.com/documentcloud/backbone/blob/master/test/events.js
   var Events = require('../src/events')
+  var expect = require('expect')
 
   describe('Events', function() {
 
