@@ -396,5 +396,22 @@ define(function(require) {
       stub3.returns(false)
       expect(obj.trigger('a')).to.be(false)
     })
+
+    it('ignore exception in callback list', function() {
+      var obj = new Events()
+      var err = new Error()
+      var spy = sinon.spy()
+      var stub = sinon.stub()
+
+      obj.on('a', stub)
+      obj.on('a', spy)
+
+      stub.throws(err)
+      expect(function() {
+        obj.trigger('a')
+      }).not.to.throwException()
+      expect(stub.called).to.be.ok()
+      expect(spy.called).to.be.ok()
+    })
   })
 })
