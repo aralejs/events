@@ -375,15 +375,26 @@ define(function(require) {
       var obj = new Events()
       var stub1 = sinon.stub()
       var stub2 = sinon.stub()
+      var stub3 = sinon.stub()
 
       obj.on('a', stub1)
       obj.on('a', stub2)
+      obj.on('all', stub3)
 
       stub1.returns(false)
       stub2.returns(true)
+      stub3.returns('')
       expect(obj.trigger('a')).to.be(false)
-      stub1.reset()
-      stub2.reset()
+
+      stub1.returns(undefined)
+      stub2.returns(null)
+      stub3.returns('')
+      expect(obj.trigger('a')).not.to.be(false)
+
+      stub1.returns(true)
+      stub2.returns(true)
+      stub3.returns(false)
+      expect(obj.trigger('a')).to.be(false)
     })
   })
 })

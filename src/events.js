@@ -84,7 +84,7 @@ define(function() {
   // (unless you're listening on `"all"`, which will cause your callback to
   // receive the true name of the event as the first argument).
   Events.prototype.trigger = function(events) {
-    var cache, event, all, list, i, len, rest = [], args
+    var cache, event, all, list, i, len, rest = [], args, returned = true
     if (!(cache = this.__events)) return this
 
     events = events.split(eventSplitter)
@@ -105,7 +105,10 @@ define(function() {
       // Execute event callbacks.
       if (list) {
         for (i = 0, len = list.length; i < len; i += 2) {
-          list[i].apply(list[i + 1] || this, rest)
+          var r = list[i].apply(list[i + 1] || this, rest)
+
+          // trigger will return false if one of the callbacks return false
+          r === false && returned && (returned = false)
         }
       }
 
@@ -113,12 +116,15 @@ define(function() {
       if (all) {
         args = [event].concat(rest)
         for (i = 0, len = all.length; i < len; i += 2) {
-          all[i].apply(all[i + 1] || this, args)
+          var r = all[i].apply(all[i + 1] || this, args)
+
+          // trigger will return false if one of the callbacks return false
+          r === false && returned && (returned = false)
         }
       }
     }
 
-    return this
+    return returned
   }
 
 
