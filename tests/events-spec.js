@@ -370,5 +370,20 @@ define(function(require) {
       expect(spy1.callCount).to.be(2)
       expect(spy2.callCount).to.be(1)
     })
+
+    it('trigger returns callback status', function() {
+      var obj = new Events()
+      var stub1 = sinon.stub()
+      var stub2 = sinon.stub()
+
+      obj.on('a', stub1)
+      obj.on('a', stub2)
+
+      stub1.returns(false)
+      stub2.returns(true)
+      expect(obj.trigger('a')).to.be(false)
+      stub1.reset()
+      stub2.reset()
+    })
   })
 })
