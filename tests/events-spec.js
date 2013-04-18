@@ -400,18 +400,27 @@ define(function(require) {
     it('ignore exception in callback list', function() {
       var obj = new Events()
       var err = new Error()
-      var spy = sinon.spy()
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
       var stub = sinon.stub()
 
-      obj.on('a', stub)
-      obj.on('a', spy)
+      if (window.console && console.error &&
+            Object.prototype.toString.call(console.error) === '[object Function]') {
+        var spy3 = sinon.spy(console, 'error')
+      }
 
-      stub.throws(err)
+      obj.on('a', stub)
+      obj.on('a', spy1)
+      obj.on('all', spy2)
+
+      stub.returns(false).throws(err)
       expect(function() {
         obj.trigger('a')
       }).not.to.throwException()
       expect(stub.called).to.be.ok()
-      expect(spy.called).to.be.ok()
+      expect(spy1.called).to.be.ok()
+      expect(spy2.called).to.be.ok()
+      spy3 && expect(spy3.calledWith(err.stack)).to.be.ok()
     })
   })
 })

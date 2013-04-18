@@ -144,11 +144,21 @@ define(function() {
     }
   }
 
-  // trigger callbacks
+  // Execute callbacks
   function callEach(list, args, returned) {
+    var r
     if (list) {
       for (var i = 0, len = list.length; i < len; i += 2) {
-        var r = list[i].apply(list[i + 1] || this, args)
+        try {
+          r = list[i].apply(list[i + 1] || this, args)
+        } catch(e) {
+          if (window.console && console.error &&
+            Object.prototype.toString.call(console.error) === '[object Function]') {
+            console.error(e.stack || e)
+          }
+          // go next with error
+          continue
+        }
 
         // trigger will return false if one of the callbacks return false
         r === false && returned.status && (returned.status = false)
