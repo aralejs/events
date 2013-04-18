@@ -4,107 +4,103 @@ define(function(require) {
   //  - https://github.com/documentcloud/backbone/blob/master/test/events.js
   var Events = require('events')
   var expect = require('expect')
+  var sinon = require('sinon')
 
   describe('Events', function() {
 
     it('on and trigger', function() {
       var obj = new Events()
-      obj.counter = 0
+      var spy = sinon.spy()
 
-      obj.on('event', function() {
-        obj.counter += 1
-      })
+      obj.on('event', spy)
 
       obj.trigger('event')
-      expect(obj.counter).to.equal(1)
+      expect(spy.callCount).to.be(1)
 
       obj.trigger('event')
       obj.trigger('event')
       obj.trigger('event')
       obj.trigger('event')
-      expect(obj.counter).to.equal(5)
+      expect(spy.callCount).to.be(5)
     })
 
     it('binding and triggering multiple events', function() {
       var obj = new Events()
-      obj.counter = 0
+      var spy = sinon.spy()
 
-      obj.on('a b c', function() {
-        obj.counter += 1
-      })
+      obj.on('a b c', spy)
 
       obj.trigger('a')
-      expect(obj.counter).to.equal(1)
+      expect(spy.callCount).to.be(1)
 
       obj.trigger('a b')
-      expect(obj.counter).to.equal(3)
+      expect(spy.callCount).to.be(3)
 
       obj.trigger('c')
-      expect(obj.counter).to.equal(4)
+      expect(spy.callCount).to.be(4)
 
       obj.off('a c')
       obj.trigger('a b c')
-      expect(obj.counter).to.equal(5)
+      expect(spy.callCount).to.be(5)
     })
 
     it('trigger all for each event', function() {
       var obj = new Events()
-      obj.counter = 0
-      var a, b
+      var spy = sinon.spy()
+      var spy2 = sinon.spy()
 
-      obj.on('all',function(event) {
-        obj.counter++
-        if (event == 'a') a = true
-        if (event == 'b') b = true
-      }).trigger('a b')
+      obj.on('all', spy)
+      obj.on('c', spy2)
 
-      expect(a).to.equal(true)
-      expect(b).to.equal(true)
-      expect(obj.counter).to.equal(2)
+      obj.trigger('a b')
+      expect(spy.callCount).to.be(2)
+      expect(spy.calledWith('a'))
+      expect(spy.calledWith('b'))
+      spy.reset()
+
+      obj.trigger('c')
+      expect(spy.callCount).to.be(1)
+      expect(spy2.callCount).to.be(1)
+      expect(spy2.calledBefore(spy))
     })
 
     it('on, then unbind all functions', function() {
       var obj = new Events()
-      obj.counter = 0
+      var spy = sinon.spy()
 
-      function callback() {
-        obj.counter += 1
-      }
-
-      obj.on('event', callback)
+      obj.on('event', spy)
       obj.trigger('event')
+      expect(spy.callCount).to.be(1)
+
       obj.off('event')
       obj.trigger('event')
-      expect(obj.counter).to.equal(1)
+      expect(spy.callCount).to.be(1)
     })
 
     it('bind two callbacks, unbind only one', function() {
       var obj = new Events()
-      obj.counterA = 0
-      obj.counterB = 0
+      var spyA = sinon.spy()
+      var spyB = sinon.spy()
 
-      function callback() {
-        obj.counterA += 1
-      }
+      obj.on('event', spyA)
+      obj.on('event', spyB)
 
-      obj.on('event', callback)
-      obj.on('event', function() {
-        obj.counterB += 1
-      })
       obj.trigger('event')
-      obj.off('event', callback)
-      obj.trigger('event')
+      expect(spyA.callCount).to.be(1)
+      expect(spyB.callCount).to.be(1)
 
-      expect(obj.counterA).to.equal(1)
-      expect(obj.counterB).to.equal(2)
+      obj.off('event', spyA)
+      obj.trigger('event')
+      expect(spyA.callCount).to.be(1)
+      expect(spyB.callCount).to.be(2)
     })
 
     it('unbind a callback in the midst of it firing', function() {
       var obj = new Events()
-      obj.counter = 0
+      var spy = sinon.spy()
 
       function callback() {
-        obj.counter += 1
+        spy()
         obj.off('event', callback)
       }
 
@@ -113,21 +109,21 @@ define(function(require) {
       obj.trigger('event')
       obj.trigger('event')
 
-      expect(obj.counter).to.equal(1)
+      expect(spy.callCount).to.be(1)
     })
 
     it('two binds that unbind themeselves', function() {
       var obj = new Events()
-      obj.counterA = 0
-      obj.counterB = 0
+      var spyA = sinon.spy()
+      var spyB = sinon.spy()
 
       function incrA() {
-        obj.counterA += 1
+        spyA()
         obj.off('event', incrA)
       }
 
       function incrB() {
-        obj.counterB += 1
+        spyB()
         obj.off('event', incrB)
       }
 
@@ -137,74 +133,61 @@ define(function(require) {
       obj.trigger('event')
       obj.trigger('event')
 
-      expect(obj.counterA).to.equal(1)
-      expect(obj.counterB).to.equal(1)
+      expect(spyA.callCount).to.be(1)
+      expect(spyB.callCount).to.be(1)
     })
 
     it('bind a callback with a supplied context', function() {
-      function TestClass() {
-      }
-
-      TestClass.prototype.assertTrue = function() {
-        return true
-      }
-
       var obj = new Events()
+      var context = {}
+      var spy = sinon.spy()
 
-      obj.on('event', function() {
-        expect(this.assertTrue()).to.equal(true)
-      }, (new TestClass))
+      obj.on('event', spy, context)
 
       obj.trigger('event')
+      expect(spy.calledOn(context))
     })
 
     it('nested trigger with unbind', function() {
       var obj = new Events()
-      obj.counter = 0
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
 
       function incr1() {
-        obj.counter += 1
+        spy1()
         obj.off('event', incr1)
         obj.trigger('event')
       }
 
-      function incr2() {
-        obj.counter += 1
-      }
-
       obj.on('event', incr1)
-      obj.on('event', incr2)
+      obj.on('event', spy2)
       obj.trigger('event')
 
-      expect(obj.counter).to.equal(3)
+      expect(spy1.callCount).to.be(1)
+      expect(spy2.callCount).to.be(2)
     })
 
     it('callback list is not altered during trigger', function() {
-      var counter = 0
       var obj = new Events()
-
-      function incr() {
-        counter++
-      }
+      var spy = sinon.spy()
 
       obj.on('event',function() {
-        obj.on('event', incr).on('all', incr)
+        obj.on('event', spy).on('all', spy)
       }).trigger('event')
 
       // bind does not alter callback list
-      expect(counter).to.equal(0)
+      expect(spy.callCount).to.equal(0)
 
-      counter = 0
       obj.off()
           .on('event', function() {
-            obj.off('event', incr).off('all', incr)
+            obj.off('event', spy).off('all', spy)
           })
-          .on('event', incr)
-          .on('all', incr)
+          .on('event', spy)
+          .on('all', spy)
           .trigger('event')
 
       // unbind does not alter callback list
-      expect(counter).to.equal(2)
+      expect(spy.callCount).to.equal(2)
 
       // 注：
       // 1. jQuery 里，是冻结的，在 triggering 时，新增或删除都不影响
@@ -225,89 +208,73 @@ define(function(require) {
     })
 
     it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("x")`', function() {
-      var counter = 0
       var obj = new Events()
-
-      function incr() {
-        counter++
-      }
+      var spy = sinon.spy()
 
       obj.on('x', function() {
-        obj.on('y', incr)
+        obj.on('y', spy)
       })
       obj.trigger('x y')
 
-      expect(counter).to.equal(1)
+      expect(spy.callCount).to.be(1)
+      spy.reset()
 
-      counter = 0
       obj.off()
       obj.on('x', function() {
-        obj.on('y', incr)
+        obj.on('y', spy)
       })
       obj.trigger('y x')
 
-      expect(counter).to.equal(0)
+      expect(spy.callCount).to.be(0)
     })
 
     it('`all` callback list is retrieved after each event', function() {
-      var counter = 0
       var obj = new Events()
-
-      function incr() {
-        counter++
-      }
+      var spy = sinon.spy()
 
       obj.on('x',function() {
-        obj.on('y', incr).on('all', incr)
+        obj.on('y', spy).on('all', spy)
       }).trigger('x y')
 
-      expect(counter).to.equal(2)
+      expect(spy.callCount).to.be(2)
     })
 
     it('if no callback is provided, `on` is a noop', function() {
-      new Events().on('test').trigger('test')
+      expect(function() {
+        new Events().on('test').trigger('test')
+      }).not.to.throwException();
     })
 
     it('remove all events for a specific context', function() {
       var obj = new Events()
+      var spyA = sinon.spy()
+      var spyB = sinon.spy()
       var a = 0
       var b = 0
 
-      obj.on('x y all', function() {
-        a++
-      })
+      obj.on('x y all', spyA)
 
-      obj.on('x y all', function() {
-        b++
-      }, obj)
+      obj.on('x y all', spyB, obj)
 
       obj.off(null, null, obj)
       obj.trigger('x y')
 
-      expect(a).to.equal(4)
-      expect(b).to.equal(0)
+      expect(spyA.callCount).to.be(4)
+      expect(spyB.callCount).to.be(0)
     })
 
     it('remove all events for a specific callback', function() {
       var obj = new Events()
-      var a = 0
-      var b = 0
-
-      function success() {
-        a++
-      }
-
-      function fail() {
-        b++
-      }
+      var success = sinon.spy()
+      var fail = sinon.spy()
 
       obj.on('x y all', success)
       obj.on('x y all', fail)
       obj.off(null, fail)
       obj.trigger('x y')
 
-      expect(a).to.equal(4)
-      expect(b).to.equal(0)
+      expect(success.callCount).to.equal(4)
+      expect(fail.callCount).to.equal(0)
     })
 
     it('off is chainable', function() {
@@ -361,15 +328,12 @@ define(function(require) {
     })
 
     it('mixTo object instance', function() {
-      var obj = { counter: 0 }
+      var obj = {}
       Events.mixTo(obj)
+      var spy = sinon.spy()
 
-      function incr() {
-        obj.counter++
-      }
-
-      obj.on('x y', incr).off('x').trigger('x y')
-      expect(obj.counter).to.equal(1)
+      obj.on('x y', spy).off('x').trigger('x y')
+      expect(spy.callCount).to.equal(1)
     })
 
     it('mixTo Class function', function() {
@@ -380,38 +344,31 @@ define(function(require) {
       Events.mixTo(F)
       var obj = new F()
 
-      function incr() {
-        obj.counter++
-      }
+      var spy = sinon.spy()
 
-      obj.on('x y', incr).off('x').trigger('x y')
-      expect(obj.counter).to.equal(1)
+      obj.on('x y', spy).off('x').trigger('x y')
+      expect(spy.callCount).to.equal(1)
     })
 
     it('splice bug for `off`', function() {
-      var counter = 0
-
-      function f1() {
-        counter++
-      }
-
-      function f2() {
-        counter++
-      }
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
 
       var obj = new Events()
-      obj.on('event', f1)
-      obj.on('event', f1)
-      obj.on('event', f2)
+      obj.on('event', spy1)
+      obj.on('event', spy1)
+      obj.on('event', spy2)
 
       obj.trigger('event')
-      expect(counter).to.equal(3)
+      expect(spy1.callCount).to.be(2)
+      expect(spy2.callCount).to.be(1)
 
-      obj.off(null, f1)
-      obj.off(null, f2)
+      obj.off(null, spy1)
+      obj.off(null, spy2)
 
       obj.trigger('event')
-      expect(counter).to.equal(3)
+      expect(spy1.callCount).to.be(2)
+      expect(spy2.callCount).to.be(1)
     })
   })
 })
