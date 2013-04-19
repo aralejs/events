@@ -118,7 +118,7 @@ obj.on('x').on('y');
 
 ## 性能对比
 
-- <http://jsperf.com/events-perfs>
+- <http://jsperf.com/events-perfs/6>
 
 **注**：最开始，该模块的主要代码直接来自 Backbone.Events. 后来发现 Backbone
 的代码实现有较大的改进空间，因此将内部的数据结构从链表改成了数组，重构后大幅度提升了性能。目前
