@@ -422,5 +422,14 @@ define(function(require) {
       expect(spy2.called).to.be.ok()
       spy3 && expect(spy3.calledWith(err.stack)).to.be.ok()
     })
+
+    it('callback context', function() {
+      var obj = new Events()
+      var spy = sinon.spy()
+      obj.on('a', spy)
+
+      obj.trigger('a')
+      expect(spy.calledOn(obj)).to.be.ok()
+    })
   })
 })
