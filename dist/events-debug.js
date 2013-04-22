@@ -79,9 +79,9 @@ define("arale/events/1.1.0/events-debug", [], function() {
             if (all = cache.all) all = all.slice();
             if (list = cache[event]) list = list.slice();
             // Execute event callbacks.
-            callEach(list, rest, returned);
+            callEach(list, rest, this, returned);
             // Execute "all" callbacks.
-            callEach(all, [ event ].concat(rest), returned);
+            callEach(all, [ event ].concat(rest), this, returned);
         }
         return returned.status;
     };
@@ -110,12 +110,12 @@ define("arale/events/1.1.0/events-debug", [], function() {
         };
     }
     // Execute callbacks
-    function callEach(list, args, returned) {
+    function callEach(list, args, context, returned) {
         var r;
         if (list) {
             for (var i = 0, len = list.length; i < len; i += 2) {
                 try {
-                    r = list[i].apply(list[i + 1] || this, args);
+                    r = list[i].apply(list[i + 1] || context, args);
                 } catch (e) {
                     if (window.console && console.error && Object.prototype.toString.call(console.error) === "[object Function]") {
                         console.error(e.stack || e);
