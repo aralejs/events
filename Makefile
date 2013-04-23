@@ -42,6 +42,6 @@ coverage:
 coveralls:
 	@rm -fr _site/src-cov
 	@./node_modules/.bin/jscoverage --encoding=utf8 src _site/src-cov
-	@$(MAKE) test-dist reporter=json-cov url=tests/runner.html?cov | node $(THEME)/lcov.js | ./node_modules/.bin/coveralls
+	@$(MAKE) test-dist reporter=json-cov url=tests/runner.html?cov | node _theme/lcov.js | ./node_modules/.bin/coveralls
 
 .PHONY: build-doc debug server publish clean test coverage
