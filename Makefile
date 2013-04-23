@@ -39,9 +39,4 @@ coverage:
 	@$(MAKE) test-dist reporter=json-cov url=tests/runner.html?cov | node $(THEME)/html-cov.js > tests/coverage.html
 	@echo "Build coverage to tests/coverage.html"
 
-coveralls:
-	@rm -fr _site/src-cov
-	@./node_modules/.bin/jscoverage --encoding=utf8 src _site/src-cov
-	@$(MAKE) test-dist reporter=json-cov url=tests/runner.html?cov | node _theme/lcov.js | ./node_modules/.bin/coveralls
-
 .PHONY: build-doc debug server publish clean test coverage
