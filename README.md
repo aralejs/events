@@ -13,7 +13,7 @@
 
 使用 `Events` 有两种方式，一种是直接实例化：
 
-```js
+```
 define(function(require) {
     var Events = require('events');
 
@@ -28,7 +28,7 @@ define(function(require) {
 
 另一种是将 `Events` 混入（mix-in）到其他类中：
 
-```js
+```
 define(function(require) {
     var Events = require('events');
 
@@ -58,17 +58,23 @@ define(function(require) {
 
 可以传入第三个参数 `context` 来改变回调函数调用时的 `this` 值：
 
-```js
+```
 post.on('saved', callback, that);
 ```
 
-**注意**：`event` 参数有个特殊取值：`all`. 对象上触发任何事件，都会触发 `all`
+**注意**：`event` 参数有个特殊取值：`all` 对象上触发任何事件，都会触发 `all`
 事件的回调函数，传给 `all` 事件回调函数的第一个参数是事件名。例如，下面的代码可以将一个对象上的所有事件代理到另一个对象上：
 
-```js
+```
 proxy.on('all', function(eventName) {
     object.trigger(eventName);
 });
+```
+
+能同时将多个事件添加到一个回调函数上，事件名以空格分割
+
+```
+obj.on('a b c', callback);
 ```
 
 
@@ -76,7 +82,7 @@ proxy.on('all', function(eventName) {
 
 从对象上移除事件回调函数。三个参数都是可选的，当省略某个参数时，表示取该参数的所有值。例子：
 
-```js
+```
 // 移除 change 事件上名为 onChange 的回调函数
 object.off('change', onChange);
 
@@ -101,7 +107,7 @@ object.off();
 
 **注意**：`on` 和 `off` 的 `event` 参数也可以表示多个事件（用空格分隔），比如：
 
-```js
+```
 var obj = new Events();
 
 obj.on('x y', fn);
@@ -115,6 +121,9 @@ obj.on('x').on('y');
 
 将 `Events` 的原型方法混入到指定对象或函数原型中。
 
+## 问题讨论
+
+- handler 的异常处理 https://github.com/aralejs/events/issues/1
 
 ## 性能对比
 
