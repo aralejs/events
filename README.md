@@ -3,7 +3,7 @@
 
 ---
 
-[![Build Status](https://travis-ci.org/aralejs/events.png)](https://travis-ci.org/aralejs/events)
+[![Build Status](https://travis-ci.org/aralejs/events.png)](https://travis-ci.org/aralejs/events) [![Coverage Status](https://coveralls.io/repos/aralejs/events/badge.png?branch=master)](https://coveralls.io/r/aralejs/events)
 
 提供基本的事件添加、移除和触发功能。
 
