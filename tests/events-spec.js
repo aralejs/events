@@ -434,11 +434,14 @@ define(function(require) {
 
     it('trigger arguments', function() {
       var obj = new Events()
-      var spy = sinon.spy()
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
 
-      obj.on('a', spy)
+      obj.on('a', spy1)
+      obj.on('all', spy2)
       obj.trigger('a', 1, 2)
-      expect(spy.calledWith(1, 2)).to.be.ok()
+      expect(spy1.calledWith(1, 2)).to.be.ok()
+      expect(spy2.calledWith('a', 1, 2)).to.be.ok()
     })
   })
 })
