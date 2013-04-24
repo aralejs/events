@@ -431,5 +431,14 @@ define(function(require) {
       obj.trigger('a')
       expect(spy.calledOn(obj)).to.be.ok()
     })
+
+    it('trigger arguments', function() {
+      var obj = new Events()
+      var spy = sinon.spy()
+
+      obj.on('a', spy)
+      obj.trigger('a', 1, 2)
+      expect(spy.calledWith(1, 2)).to.be.ok()
+    })
   })
 })
