@@ -71,13 +71,6 @@ proxy.on('all', function(eventName) {
 });
 ```
 
-能同时将多个事件添加到一个回调函数上，事件名以空格分割
-
-```
-obj.on('a b c', callback);
-```
-
-
 ### off `object.off([event], [callback], [context])`
 
 从对象上移除事件回调函数。三个参数都是可选的，当省略某个参数时，表示取该参数的所有值。例子：
@@ -104,6 +97,30 @@ object.off();
 
 触发一个或多个事件（用空格分隔）。`*args` 参数会依次传给回调函数。
 
+```
+obj.on('event', function(arg1, arg2) {
+  // your code
+});
+
+obj.trigger('event', arg1, arg2);
+```
+
+trigger 的返回值是一个布尔值，会根据所有 callback 的执行情况返回。只要有一个 callback 返回 false，trigger 就会返回 false。
+
+```
+obj.on('event', function() {
+  // do sth.
+});
+obj.on('event', function() {
+  // do sth.
+  return false;
+});
+obj.on('event', function() {
+  // do sth
+});
+
+obj.trigger('event'); // return false
+```
 
 **注意**：`on` 和 `off` 的 `event` 参数也可以表示多个事件（用空格分隔），比如：
 
