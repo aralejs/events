@@ -149,16 +149,7 @@ define(function() {
     var r
     if (list) {
       for (var i = 0, len = list.length; i < len; i += 2) {
-        try {
-          r = list[i].apply(list[i + 1] || context, args)
-        } catch(e) {
-          if (window.console && console.error &&
-            Object.prototype.toString.call(console.error) === '[object Function]') {
-            console.error(e.stack || e)
-          }
-          // go next with error
-          continue
-        }
+        r = list[i].apply(list[i + 1] || context, args)
 
         // trigger will return false if one of the callbacks return false
         r === false && returned.status && (returned.status = false)

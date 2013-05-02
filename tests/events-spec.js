@@ -397,7 +397,7 @@ define(function(require) {
       expect(obj.trigger('a')).to.be(false)
     })
 
-    it('ignore exception in callback list', function() {
+    xit('ignore exception in callback list', function() {
       var obj = new Events()
       var err = new Error()
       var spy1 = sinon.spy()
