@@ -112,7 +112,7 @@ define(function(require) {
       expect(spy.callCount).to.be(1)
     })
 
-    it('two binds that unbind themeselves', function() {
+    it('two binds that unbind themselves', function() {
       var obj = new Events()
       var spyA = sinon.spy()
       var spyB = sinon.spy()
@@ -207,7 +207,7 @@ define(function(require) {
 
     })
 
-    it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("x")`', function() {
+    it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("y")`', function() {
       var obj = new Events()
       var spy = sinon.spy()
 
