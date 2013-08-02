@@ -84,7 +84,7 @@ define(function() {
   // (unless you're listening on `"all"`, which will cause your callback to
   // receive the true name of the event as the first argument).
   Events.prototype.trigger = function(events) {
-    var cache, event, all, list, i, len, rest = [], args, returned = {status: true}
+    var cache, event, all, list, i, len, rest = [], args, returned = true;
     if (!(cache = this.__events)) return this
 
     events = events.split(eventSplitter)
@@ -103,17 +103,16 @@ define(function() {
       if (list = cache[event]) list = list.slice()
 
       // Execute event callbacks.
-      callEach(list, rest, this, returned)
+      returned = triggerEvents(list, rest, this) && returned
 
       // Execute "all" callbacks.
-      callEach(all, [event].concat(rest), this, returned)
+      returned = triggerEvents(all, [event].concat(rest), this) && returned
     }
 
-    return returned.status
+    return returned
   }
 
   Events.prototype.emit = Events.prototype.trigger
-
 
   // Mix `Events` to object instance or Class function.
   Events.mixTo = function(receiver) {
@@ -147,16 +146,15 @@ define(function() {
   }
 
   // Execute callbacks
-  function callEach(list, args, context, returned) {
-    var r
+  function triggerEvents(list, args, context) {
     if (list) {
-      for (var i = 0, len = list.length; i < len; i += 2) {
-        r = list[i].apply(list[i + 1] || context, args)
-
-        // trigger will return false if one of the callbacks return false
-        r === false && returned.status && (returned.status = false)
+      var i = 0, l = list.length, pass = true
+      for (; i < l; i += 2) {
+        pass = list[i].apply(list[i + 1] || context, args) !== false && pass
       }
     }
+    // trigger will return false if one of the callbacks return false
+    return pass;
   }
 
   return Events
