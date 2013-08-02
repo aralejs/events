@@ -112,6 +112,8 @@ define(function() {
     return returned.status
   }
 
+  Events.prototype.emit = Events.prototype.trigger
+
 
   // Mix `Events` to object instance or Class function.
   Events.mixTo = function(receiver) {

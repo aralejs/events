@@ -24,6 +24,23 @@ define(function(require) {
       expect(spy.callCount).to.be(5)
     })
 
+    it('on and emit', function() {
+      var obj = new Events()
+      var spy = sinon.spy()
+
+      obj.on('event', spy)
+
+      obj.emit('event')
+      expect(spy.callCount).to.be(1)
+
+      obj.emit('event')
+      obj.emit('event')
+      obj.emit('event')
+      obj.emit('event')
+      expect(spy.callCount).to.be(5)
+    })
+
+
     it('binding and triggering multiple events', function() {
       var obj = new Events()
       var spy = sinon.spy()
