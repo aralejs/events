@@ -93,7 +93,7 @@ object.off();
 ```
 
 
-### trigger `object.trigger(event, [*args])`
+### trigger/emit `object.trigger(event, [*args])`
 
 触发一个或多个事件（用空格分隔）。`*args` 参数会依次传给回调函数。
 
