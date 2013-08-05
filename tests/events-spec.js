@@ -14,7 +14,7 @@ define(function(require) {
 
       obj.on('event', spy)
 
-      obj.trigger('event')
+      obj.trigger('event', 1, 2)
       expect(spy.callCount).to.be(1)
 
       obj.trigger('event')
@@ -456,9 +456,9 @@ define(function(require) {
 
       obj.on('a', spy1)
       obj.on('all', spy2)
-      obj.trigger('a', 1, 2)
-      expect(spy1.calledWith(1, 2)).to.be.ok()
-      expect(spy2.calledWith('a', 1, 2)).to.be.ok()
+      obj.trigger('a', 1, 2, 3)
+      expect(spy1.calledWith(1, 2, 3)).to.be.ok()
+      expect(spy2.calledWith('a', 1, 2, 3)).to.be.ok()
     })
 
     it('#8 mixTo', function() {
