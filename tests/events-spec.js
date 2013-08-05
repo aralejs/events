@@ -460,5 +460,12 @@ define(function(require) {
       expect(spy1.calledWith(1, 2)).to.be.ok()
       expect(spy2.calledWith('a', 1, 2)).to.be.ok()
     })
+
+    it('#8 mixTo', function() {
+      var foo = {}
+      foo.prototype = {bar:1}
+      Events.mixTo(foo);
+      expect(foo).have.property('on');
+    })
   })
 })

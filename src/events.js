@@ -116,7 +116,7 @@ define(function() {
 
   // Mix `Events` to object instance or Class function.
   Events.mixTo = function(receiver) {
-    receiver = receiver.prototype || receiver
+    receiver = isFunction(receiver) ? receiver.prototype : receiver
     var proto = Events.prototype
 
     for (var p in proto) {
@@ -161,6 +161,10 @@ define(function() {
     }
     // trigger will return false if one of the callbacks return false
     return pass;
+  }
+
+  function isFunction(func) {
+    return Object.prototype.toString.call(func) === '[object Function]'
   }
 
   return Events
