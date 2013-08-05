@@ -1,6 +1,13 @@
 # History
 
 ---
+## 1.1.1
+
+`tag:fixed` #8 修复 mixTo 方法处理模拟 prototype 出错的问题
+
+`tag:improved` 优化 triggerEvents
+
+`tag:new` #9 增加 emit 接口，等同于 trigger
 
 ## 1.1.0
 
