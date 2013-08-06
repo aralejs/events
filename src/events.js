@@ -41,6 +41,14 @@ define(function() {
     return this
   }
 
+  Events.prototype.once = function(events, callback, context) {
+    var that = this
+    var cb = function() {
+      that.off(events, cb)
+      callback.apply(this, arguments)
+    }
+    this.on(events, cb, context)
+  }
 
   // Remove one or many callbacks. If `context` is null, removes all callbacks
   // with that function. If `callback` is null, removes all callbacks for the

@@ -464,8 +464,24 @@ define(function(require) {
     it('#8 mixTo', function() {
       var foo = {}
       foo.prototype = {bar:1}
-      Events.mixTo(foo);
+      Events.mixTo(foo)
       expect(foo).have.property('on');
+    })
+
+    it('once', function() {
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
+      var obj = new Events()
+      var context = {}
+      obj.once('a', spy1, context)
+      obj.once('all', spy2, context)
+      obj.trigger('b', 1)
+      obj.trigger('a', 1)
+      obj.trigger('a', 1)
+      expect(spy1.withArgs(1).calledOnce).to.be.ok()
+      expect(spy1.calledOn(context)).to.be.ok()
+      expect(spy2.withArgs('b', 1).calledOnce).to.be.ok()
+      expect(spy2.calledOn(context)).to.be.ok()
     })
   })
 })
