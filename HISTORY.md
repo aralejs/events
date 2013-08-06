@@ -9,6 +9,8 @@
 
 `tag:new` #9 增加 emit 接口，等同于 trigger
 
+`tag:new` #6 增加 once 接口
+
 ## 1.1.0
 
 `tag:changed` [#5](https://github.com/aralejs/events/issues/5) trigger 返回值变化。
