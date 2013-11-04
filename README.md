@@ -152,3 +152,7 @@ Backbone 已合并 Arale 的代码：
 
 - <https://github.com/documentcloud/backbone/pull/1284>
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/aralejs/events/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
