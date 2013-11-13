@@ -155,8 +155,10 @@ define(function() {
 
   // Execute callbacks
   function triggerEvents(list, args, context) {
+    var pass = true
+    
     if (list) {
-      var i = 0, l = list.length, a1 = args[0], a2 = args[1], a3 = args[2], pass = true
+      var i = 0, l = list.length, a1 = args[0], a2 = args[1], a3 = args[2]
       // call is faster than apply, optimize less than 3 argu
       // http://blog.csdn.net/zhengyinhui100/article/details/7837127
       switch (args.length) {
