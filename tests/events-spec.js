@@ -483,5 +483,11 @@ define(function(require) {
       expect(spy2.withArgs('b', 1).calledOnce).to.be.ok()
       expect(spy2.calledOn(context)).to.be.ok()
     })
+
+    it('#11 triggerEvents should not return undefined', function() {
+      var obj = new Events()
+      obj.on('a', function(){})
+      expect(obj.trigger('all', 1)).to.be(true)
+    })
   })
 })
