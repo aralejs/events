@@ -1,6 +1,11 @@
 # History
 
 ---
+
+## 1.1.2
+
+`tag:fixed` 修复 `trigger('all')` 的时候触发两次的问题 
+
 ## 1.1.1
 
 `tag:fixed` #8 修复 mixTo 方法处理模拟 prototype 出错的问题
