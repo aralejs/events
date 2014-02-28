@@ -489,5 +489,13 @@ define(function(require) {
       obj.on('a', function(){})
       expect(obj.trigger('all', 1)).to.be(true)
     })
+
+    it('#12 callback should be called only once when trigger', function () {
+      var spy = sinon.spy()
+      var object = new Events()
+      object.on('all', spy)
+      object.trigger('all')
+      expect(spy.callCount).to.be(1)
+    })
   })
 })

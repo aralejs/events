@@ -110,8 +110,10 @@ define(function() {
       if (all = cache.all) all = all.slice()
       if (list = cache[event]) list = list.slice()
 
-      // Execute event callbacks.
-      returned = triggerEvents(list, rest, this) && returned
+      // Execute event callbacks except one named "all"
+      if (event !== 'all') {
+        returned = triggerEvents(list, rest, this) && returned
+      }
 
       // Execute "all" callbacks.
       returned = triggerEvents(all, [event].concat(rest), this) && returned
