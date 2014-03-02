@@ -47,7 +47,7 @@ define(function() {
       that.off(events, cb)
       callback.apply(this, arguments)
     }
-    this.on(events, cb, context)
+    return this.on(events, cb, context)
   }
 
   // Remove one or many callbacks. If `context` is null, removes all callbacks
@@ -158,7 +158,7 @@ define(function() {
   // Execute callbacks
   function triggerEvents(list, args, context) {
     var pass = true
-    
+
     if (list) {
       var i = 0, l = list.length, a1 = args[0], a2 = args[1], a3 = args[2]
       // call is faster than apply, optimize less than 3 argu
