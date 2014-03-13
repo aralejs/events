@@ -45,7 +45,7 @@ define(function() {
     var that = this
     var cb = function() {
       that.off(events, cb)
-      callback.apply(this, arguments)
+      callback.apply(context || that, arguments)
     }
     return this.on(events, cb, context)
   }
