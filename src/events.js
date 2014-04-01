@@ -124,18 +124,6 @@ define(function() {
 
   Events.prototype.emit = Events.prototype.trigger
 
-  // Mix `Events` to object instance or Class function.
-  Events.mixTo = function(receiver) {
-    receiver = isFunction(receiver) ? receiver.prototype : receiver
-    var proto = Events.prototype
-
-    for (var p in proto) {
-      if (proto.hasOwnProperty(p)) {
-        receiver[p] = proto[p]
-      }
-    }
-  }
-
 
   // Helpers
   // -------
@@ -153,6 +141,20 @@ define(function() {
       }
       return result
     }
+  }
+
+  // Mix `Events` to object instance or Class function.
+  Events.mixTo = function(receiver) {
+    receiver = isFunction(receiver) ? receiver.prototype : receiver
+    var proto = Events.prototype
+
+    var event = new Events
+    Object.keys(proto).forEach(function(key) {
+      receiver[key] = function() {
+        proto[key].apply(event, Array.prototype.slice.call(arguments))
+        return this
+      }
+    })
   }
 
   // Execute callbacks

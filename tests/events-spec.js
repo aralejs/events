@@ -367,6 +367,15 @@ define(function(require) {
       expect(spy.callCount).to.equal(1)
     })
 
+    it('mixTo object instance which has __event property', function() {
+      var obj = {__events: true}
+      Events.mixTo(obj)
+      var spy = sinon.spy()
+
+      obj.on('x y', spy).off('x').trigger('x y')
+      expect(spy.callCount).to.equal(1)
+    })
+
     it('splice bug for `off`', function() {
       var spy1 = sinon.spy()
       var spy2 = sinon.spy()
