@@ -1,6 +1,5 @@
 {
-    "name": "events",
-    "family": "arale",
+    "name": "arale-events",
     "version": "1.1.0",
     "description": "提供基本的事件添加、移除和触发功能。",
     "keywords": ["infrastructure"],
@@ -13,6 +12,6 @@
         "url": "https://github.com/aralejs/events/issues"
     },
     "spm": {
-      "output": ["events.js"]
+      "main": ["src/events.js"]
     }
 }
