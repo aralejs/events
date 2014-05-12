@@ -2,7 +2,7 @@ define(function(require) {
 
   // Thanks to:
   //  - https://github.com/documentcloud/backbone/blob/master/test/events.js
-  var Events = require('events')
+  var Events = require('../events')
   var expect = require('expect')
   var sinon = require('sinon')
 
