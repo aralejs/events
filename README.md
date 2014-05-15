@@ -3,7 +3,7 @@
 
 ---
 
-[![spm package](http://spmjs.io/badge/arale-events](http://spmjs.io/package/arale-events)
+[![spm package](http://spmjs.io/badge/arale-events)](http://spmjs.io/package/arale-events)
 [![Build Status](https://travis-ci.org/aralejs/events.png)](https://travis-ci.org/aralejs/events)
 [![Coverage Status](https://coveralls.io/repos/aralejs/events/badge.png?branch=master)](https://coveralls.io/r/aralejs/events)
 
