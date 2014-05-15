@@ -94,7 +94,7 @@ object.off();
 ```
 
 
-### trigger `object.trigger(event, [*args])`
+### trigger/emit `object.trigger(event, [*args])`
 
 触发一个或多个事件（用空格分隔）。`*args` 参数会依次传给回调函数。
 
@@ -152,4 +152,8 @@ obj.on('x').on('y');
 Backbone 已合并 Arale 的代码：
 
 - <https://github.com/documentcloud/backbone/pull/1284>
+
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/aralejs/events/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

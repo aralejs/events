@@ -14,7 +14,7 @@ define(function(require) {
 
       obj.on('event', spy)
 
-      obj.trigger('event')
+      obj.trigger('event', 1, 2)
       expect(spy.callCount).to.be(1)
 
       obj.trigger('event')
@@ -23,6 +23,23 @@ define(function(require) {
       obj.trigger('event')
       expect(spy.callCount).to.be(5)
     })
+
+    it('on and emit', function() {
+      var obj = new Events()
+      var spy = sinon.spy()
+
+      obj.on('event', spy)
+
+      obj.emit('event')
+      expect(spy.callCount).to.be(1)
+
+      obj.emit('event')
+      obj.emit('event')
+      obj.emit('event')
+      obj.emit('event')
+      expect(spy.callCount).to.be(5)
+    })
+
 
     it('binding and triggering multiple events', function() {
       var obj = new Events()
@@ -112,7 +129,7 @@ define(function(require) {
       expect(spy.callCount).to.be(1)
     })
 
-    it('two binds that unbind themeselves', function() {
+    it('two binds that unbind themselves', function() {
       var obj = new Events()
       var spyA = sinon.spy()
       var spyB = sinon.spy()
@@ -207,7 +224,7 @@ define(function(require) {
 
     })
 
-    it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("x")`', function() {
+    it('`o.trigger("x y")` is equal to `o.trigger("x").trigger("y")`', function() {
       var obj = new Events()
       var spy = sinon.spy()
 
@@ -350,6 +367,15 @@ define(function(require) {
       expect(spy.callCount).to.equal(1)
     })
 
+    it('mixTo object instance which has __event property', function() {
+      var obj = {__events: true}
+      Events.mixTo(obj)
+      var spy = sinon.spy()
+
+      obj.on('x y', spy).off('x').trigger('x y')
+      expect(spy.callCount).to.equal(1)
+    })
+
     it('splice bug for `off`', function() {
       var spy1 = sinon.spy()
       var spy2 = sinon.spy()
@@ -439,9 +465,46 @@ define(function(require) {
 
       obj.on('a', spy1)
       obj.on('all', spy2)
-      obj.trigger('a', 1, 2)
-      expect(spy1.calledWith(1, 2)).to.be.ok()
-      expect(spy2.calledWith('a', 1, 2)).to.be.ok()
+      obj.trigger('a', 1, 2, 3)
+      expect(spy1.calledWith(1, 2, 3)).to.be.ok()
+      expect(spy2.calledWith('a', 1, 2, 3)).to.be.ok()
+    })
+
+    it('#8 mixTo', function() {
+      var foo = {}
+      foo.prototype = {bar:1}
+      Events.mixTo(foo)
+      expect(foo).have.property('on');
+    })
+
+    it('once', function() {
+      var spy1 = sinon.spy()
+      var spy2 = sinon.spy()
+      var obj = new Events()
+      var context = {}
+      obj.once('a', spy1, context)
+      obj.once('all', spy2, context)
+      obj.trigger('b', 1)
+      obj.trigger('a', 1)
+      obj.trigger('a', 1)
+      expect(spy1.withArgs(1).calledOnce).to.be.ok()
+      expect(spy1.calledOn(context)).to.be.ok()
+      expect(spy2.withArgs('b', 1).calledOnce).to.be.ok()
+      expect(spy2.calledOn(context)).to.be.ok()
+    })
+
+    it('#11 triggerEvents should not return undefined', function() {
+      var obj = new Events()
+      obj.on('a', function(){})
+      expect(obj.trigger('all', 1)).to.be(true)
+    })
+
+    it('#12 callback should be called only once when trigger', function () {
+      var spy = sinon.spy()
+      var object = new Events()
+      object.on('all', spy)
+      object.trigger('all')
+      expect(spy.callCount).to.be(1)
     })
   })
 })
