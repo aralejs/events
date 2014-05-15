@@ -2,6 +2,10 @@
 
 ---
 
+## 1.2.0
+
+`improved` 升级到 spm@3.x 规范。
+
 ## 1.1.0
 
 `tag:changed` [#5](https://github.com/aralejs/events/issues/5) trigger 返回值变化。
