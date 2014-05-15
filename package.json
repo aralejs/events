@@ -19,7 +19,7 @@
     "spm": {
         "main": "events.js",
         "devDependencies": {
-            "expect": "0.3.1",
+            "expect.js": "0.3.1",
             "sinon": "1.6.0"
         }
     }

@@ -39,6 +39,14 @@ Events.prototype.on = function(events, callback, context) {
   return this
 }
 
+Events.prototype.once = function(events, callback, context) {
+  var that = this
+  var cb = function() {
+    that.off(events, cb)
+    callback.apply(context || that, arguments)
+  }
+  return this.on(events, cb, context)
+}
 
 // Remove one or many callbacks. If `context` is null, removes all callbacks
 // with that function. If `callback` is null, removes all callbacks for the
@@ -82,7 +90,7 @@ Events.prototype.off = function(events, callback, context) {
 // (unless you're listening on `"all"`, which will cause your callback to
 // receive the true name of the event as the first argument).
 Events.prototype.trigger = function(events) {
-  var cache, event, all, list, i, len, rest = [], args, returned = {status: true}
+  var cache, event, all, list, i, len, rest = [], args, returned = true;
   if (!(cache = this.__events)) return this
 
   events = events.split(eventSplitter)
@@ -100,28 +108,19 @@ Events.prototype.trigger = function(events) {
     if (all = cache.all) all = all.slice()
     if (list = cache[event]) list = list.slice()
 
-    // Execute event callbacks.
-    callEach(list, rest, this, returned)
+    // Execute event callbacks except one named "all"
+    if (event !== 'all') {
+      returned = triggerEvents(list, rest, this) && returned
+    }
 
     // Execute "all" callbacks.
-    callEach(all, [event].concat(rest), this, returned)
+    returned = triggerEvents(all, [event].concat(rest), this) && returned
   }
 
-  return returned.status
+  return returned
 }
 
-
-// Mix `Events` to object instance or Class function.
-Events.mixTo = function(receiver) {
-  receiver = receiver.prototype || receiver
-  var proto = Events.prototype
-
-  for (var p in proto) {
-    if (proto.hasOwnProperty(p)) {
-      receiver[p] = proto[p]
-    }
-  }
-}
+Events.prototype.emit = Events.prototype.trigger
 
 
 // Helpers
@@ -142,18 +141,42 @@ if (!keys) {
   }
 }
 
-// Execute callbacks
-function callEach(list, args, context, returned) {
-  var r
-  if (list) {
-    for (var i = 0, len = list.length; i < len; i += 2) {
-      r = list[i].apply(list[i + 1] || context, args)
+// Mix `Events` to object instance or Class function.
+Events.mixTo = function(receiver) {
+  receiver = isFunction(receiver) ? receiver.prototype : receiver
+  var proto = Events.prototype
 
-      // trigger will return false if one of the callbacks return false
-      r === false && returned.status && (returned.status = false)
+  var event = new Events
+  Object.keys(proto).forEach(function(key) {
+    receiver[key] = function() {
+      proto[key].apply(event, Array.prototype.slice.call(arguments))
+      return this
+    }
+  })
+}
+
+// Execute callbacks
+function triggerEvents(list, args, context) {
+  var pass = true
+
+  if (list) {
+    var i = 0, l = list.length, a1 = args[0], a2 = args[1], a3 = args[2]
+    // call is faster than apply, optimize less than 3 argu
+    // http://blog.csdn.net/zhengyinhui100/article/details/7837127
+    switch (args.length) {
+      case 0: for (; i < l; i += 2) {pass = list[i].call(list[i + 1] || context) !== false && pass} break;
+      case 1: for (; i < l; i += 2) {pass = list[i].call(list[i + 1] || context, a1) !== false && pass} break;
+      case 2: for (; i < l; i += 2) {pass = list[i].call(list[i + 1] || context, a1, a2) !== false && pass} break;
+      case 3: for (; i < l; i += 2) {pass = list[i].call(list[i + 1] || context, a1, a2, a3) !== false && pass} break;
+      default: for (; i < l; i += 2) {pass = list[i].apply(list[i + 1] || context, args) !== false && pass} break;
     }
   }
+  // trigger will return false if one of the callbacks return false
+  return pass;
+}
+
+function isFunction(func) {
+  return Object.prototype.toString.call(func) === '[object Function]'
 }
 
 module.exports = Events
-
