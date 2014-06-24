@@ -147,7 +147,7 @@ Events.mixTo = function(receiver) {
   var proto = Events.prototype
 
   var event = new Events
-  Object.keys(proto).forEach(function(key) {
+  keys(proto).forEach(function(key) {
     receiver[key] = function() {
       proto[key].apply(event, Array.prototype.slice.call(arguments))
       return this
