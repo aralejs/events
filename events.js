@@ -147,12 +147,18 @@ Events.mixTo = function(receiver) {
   var proto = Events.prototype
 
   var event = new Events
-  keys(proto).forEach(function(key) {
+  for (var key in proto) {
+    if (proto.hasOwnProperty(key)) {
+      copyProto(key)
+    }
+  }
+
+  function copyProto(key) {
     receiver[key] = function() {
       proto[key].apply(event, Array.prototype.slice.call(arguments))
       return this
     }
-  })
+  }
 }
 
 // Execute callbacks
