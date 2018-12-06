@@ -40,6 +40,7 @@ Events.prototype.on = function(events, callback, context) {
 }
 
 Events.prototype.once = function(events, callback, context) {
+  if (!callback) return this
   var that = this
   var cb = function() {
     that.off(events, cb)

@@ -20,3 +20,4 @@ _site
 sea-modules
 .cache
 dist/
+node_modules

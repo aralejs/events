@@ -2,7 +2,9 @@
   "name": "arale-events",
   "version": "1.2.0",
   "description": "提供基本的事件添加、移除和触发功能。",
-  "keywords": ["infrastructure"],
+  "keywords": [
+    "infrastructure"
+  ],
   "homepage": "http://aralejs.org/events/",
   "author": "玉伯 <lifesinger@gmail.com>",
   "maintainers": [
@@ -16,6 +18,9 @@
   "bugs": {
     "url": "https://github.com/aralejs/events/issues"
   },
+  "scripts": {
+    "test": "npx mocha tests/**/*-spec.js"
+  },
   "spm": {
     "main": "events.js",
     "devDependencies": {
@@ -25,5 +30,9 @@
     "engines": {
       "seajs": "2.2.1"
     }
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "sinon": "^7.1.1"
   }
 }
