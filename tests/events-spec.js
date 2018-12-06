@@ -71,7 +71,7 @@ describe('Events', function() {
     expect(spy.callCount).to.be(2)
     expect(spy.calledWith('a'))
     expect(spy.calledWith('b'))
-    spy.reset()
+    spy.resetHistory()
 
     obj.trigger('c')
     expect(spy.callCount).to.be(1)
@@ -232,7 +232,7 @@ describe('Events', function() {
     obj.trigger('x y')
 
     expect(spy.callCount).to.be(1)
-    spy.reset()
+    spy.resetHistory()
 
     obj.off()
     obj.on('x', function() {
